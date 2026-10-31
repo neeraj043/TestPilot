@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>TestPilot — Playwright & JavaScript Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="glow glow-one"></div>
+  <div class="glow glow-two"></div>
+
+  <nav class="topbar">
+    <a class="brand" href="#" aria-label="TestPilot home">
+      <span class="brand-mark">T<span>▶</span></span>
+      <span>TestPilot</span>
+    </a>
+    <div class="nav-actions">
+      <span class="topic-pill"><span class="status-dot"></span> PLAYWRIGHT + JS</span>
+      <button class="icon-button" id="themeButton" aria-label="Toggle theme">☼</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="startScreen">
+      <div class="eyebrow"><span></span> INTERACTIVE SKILL CHECK</div>
+      <h1>Are you ready to <em>break things?</em></h1>
+      <p class="hero-copy">Put your Playwright and JavaScript knowledge to the test. Get instant feedback, no surprises, and a score you can actually learn from.</p>
+      <div class="level-picker" role="radiogroup" aria-label="Select difficulty">
+        <button class="level-card active" data-level="basic" role="radio" aria-checked="true"><span>01</span><strong>Basic</strong><small>Core concepts</small></button>
+        <button class="level-card" data-level="intermediate" role="radio" aria-checked="false"><span>02</span><strong>Intermediate</strong><small>Applied skills</small></button>
+        <button class="level-card" data-level="moderate" role="radio" aria-checked="false"><span>03</span><strong>Moderate</strong><small>Debug & analyze</small></button>
+        <button class="level-card" data-level="expert" role="radio" aria-checked="false"><span>04</span><strong>Expert</strong><small>Advanced patterns</small></button>
+      </div>
+      <div class="hero-actions">
+        <button class="primary-button" id="startButton">Start assessment <span>→</span></button>
+        <div class="quiz-meta"><strong id="questionCount">6 questions</strong><span>Fresh selection every attempt</span></div>
+      </div>
+      <div class="feature-row">
+        <div><span class="feature-icon">01</span><p><strong>Timed questions</strong><br>Stay focused and sharp</p></div>
+        <div><span class="feature-icon">02</span><p><strong>Visual explanations</strong><br>Learn how systems behave</p></div>
+        <div><span class="feature-icon">03</span><p><strong>Instant results</strong><br>Know exactly where to improve</p></div>
+      </div>
+    </section>
+
+    <section class="quiz-shell hidden" id="quizScreen" aria-live="polite">
+      <div class="quiz-header">
+        <button class="text-button" id="exitButton">← Exit quiz</button>
+        <div class="progress-wrap">
+          <div class="progress-label"><span id="questionCounter">Question 1 of 6</span><span id="timer">01:30</span></div>
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+      </div>
+      <div class="quiz-grid">
+        <article class="question-card">
+          <div class="question-kicker" id="questionKicker">JAVASCRIPT • ASYNC</div>
+          <h2 id="questionTitle"></h2>
+          <div id="diagram" class="diagram hidden"></div>
+          <div class="options" id="options"></div>
+          <div class="feedback hidden" id="feedback"></div>
+          <div class="question-footer">
+            <span id="pointsLabel">Worth 10 points</span>
+            <button class="primary-button small" id="nextButton" disabled>Next question <span>→</span></button>
+          </div>
+        </article>
+        <aside class="score-panel">
+          <span>LIVE SCORE</span>
+          <strong id="liveScore">0</strong>
+          <div class="mini-stats">
+            <div><span>Correct</span><b id="correctCount">0</b></div>
+            <div><span>Answered</span><b id="answeredCount">0</b></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="results hidden" id="resultsScreen">
+      <div class="result-icon" id="resultIcon">✓</div>
+      <div class="eyebrow"><span></span> ASSESSMENT COMPLETE</div>
+      <h2>Your score is <em id="finalScore">0%</em></h2>
+      <p id="resultMessage"></p>
+      <div class="result-stats">
+        <div><strong id="resultCorrect">0</strong><span>Correct</span></div>
+        <div><strong id="resultAccuracy">0%</strong><span>Accuracy</span></div>
+        <div><strong id="resultAnswered">0</strong><span>Answered</span></div>
+      </div>
+      <button class="primary-button" id="restartButton">Try again <span>↻</span></button>
+    </section>
+  </main>
+
+  <footer>TestPilot <span>•</span> Built for curious testers</footer>
+  <script src="app.js"></script>
+</body>
+</html>
