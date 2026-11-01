@@ -14,10 +14,18 @@ const startScreen = $('startScreen');
 const quizScreen = $('quizScreen');
 const resultsScreen = $('resultsScreen');
 
-async function loadQuestionBank() {
-  const response = await fetch(`questions.json?attempt=${Date.now()}`, { cache: 'no-store' });
-  if (!response.ok) throw new Error(`Question file could not be loaded (${response.status})`);
-  allQuestions = await response.json();
+async function generateQuestions() {
+  const response = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ level: selectedLevel, count: 6 })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || `Question generation failed (${response.status})`);
+  }
+  const result = await response.json();
+  return result.questions;
 }
 
 function shuffled(items) {
@@ -34,11 +42,10 @@ async function startQuiz() {
   button.disabled = true;
   button.innerHTML = 'Loading fresh questions…';
   try {
-    await loadQuestionBank();
-    const levelQuestions = allQuestions.filter(question => question.level === selectedLevel);
-    if (!levelQuestions.length) throw new Error(`No ${selectedLevel} questions are available`);
+    const generatedQuestions = await generateQuestions();
+    if (!generatedQuestions.length) throw new Error(`No ${selectedLevel} questions could be generated`);
 
-    questions = shuffled(levelQuestions).slice(0, Math.min(6, levelQuestions.length));
+    questions = shuffled(generatedQuestions).slice(0, Math.min(6, generatedQuestions.length));
     index = 0; score = 0; correct = 0; answered = 0;
     startScreen.classList.add('hidden'); resultsScreen.classList.add('hidden'); quizScreen.classList.remove('hidden');
     $('questionCounter').textContent = '';

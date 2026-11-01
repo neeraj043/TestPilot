@@ -1,23 +1,37 @@
 # TestPilot Quiz
 
-A static, mobile-friendly Playwright and JavaScript knowledge assessment with Basic, Intermediate, Moderate, and Expert levels. Each attempt randomly selects six questions and downloads the latest `questions.json` from the server, so no database is required.
-
-## Update questions
-
-Edit `questions.json` on the server. Each question must include `level`, `category`, `question`, `options`, zero-based `answer`, and `explanation`. Optional `code` and `diagram` fields can add source-code or ASCII-diagram content.
+A Playwright and JavaScript assessment that generates a fresh questionnaire at runtime through a server API.
 
 ## Run locally
 
-Open `index.html` directly, or serve the folder:
-
 ```powershell
-python -m http.server 8080
+npm start
 ```
 
 Then visit `http://localhost:8080`.
 
-## Deploy online
+## Generate with AI
 
-Any static host works. Upload `index.html`, `styles.css`, `app.js`, and `questions.json` together to the same folder. For example, use `/quiz/` on stlabsindia.com and open `https://stlabsindia.com/quiz/`. The server must serve JSON with `application/json`. No PHP, database, Node server, or API key is required.
+Set an OpenAI-compatible API key before starting the server:
 
-For GitHub Pages, push these files and select the repository root branch in **Settings → Pages**.
+```powershell
+$env:OPENAI_API_KEY="your-api-key"
+$env:OPENAI_MODEL="gpt-4o-mini"
+npm start
+```
+
+Without an API key, the API uses its built-in runtime generator so local development still works. Override the provider endpoint with `OPENAI_BASE_URL` if needed.
+
+## API
+
+`POST /api/generate`
+
+```json
+{
+  "level": "basic",
+  "count": 6,
+  "topic": "Playwright locators"
+}
+```
+
+Supported levels are `basic`, `intermediate`, `moderate`, and `expert`.
